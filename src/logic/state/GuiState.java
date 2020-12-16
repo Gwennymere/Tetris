@@ -6,8 +6,8 @@ public class GuiState {
     private boolean showDebug;
 
     public GuiState(GameClock clock) {
-        showDebug = false;
-        clock.registerClockInfo(this);
+//        showDebug = false;
+//        clock.register(this);
     }
 
     public boolean toggleDebug() {

@@ -1,9 +1,9 @@
 package logic.state;
 
 import logic.clocking.GameClock;
-import logic.update.updatable.UnfixedUpdatable;
+import logic.update.unfixedUpdate.unfixedUpdatables.LongUpdatable;
 
-public class GameState implements UnfixedUpdatable {
+public class GameState implements LongUpdatable {
     private double charAX = 0;
     private double charAY = 0;
     private double charBX = 1000;
@@ -14,15 +14,14 @@ public class GameState implements UnfixedUpdatable {
     }
 
     @Override
-    public void update(long timeElapsed) {
+    public void update(Long timeElapsed) {
         charAX += timeElapsed * 10;
         charAY += timeElapsed * 10;
         charBX -= timeElapsed * 10;
         charBY -= timeElapsed * 10;
     }
 
-    @Override
-    public void registerWithClock(GameClock clock) {
-        clock.registerUpdatable(this);
+    private void registerWithClock(GameClock clock) {
+        clock.register(this);
     }
 }

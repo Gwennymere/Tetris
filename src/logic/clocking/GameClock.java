@@ -1,14 +1,14 @@
 package logic.clocking;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import logic.update.updatable.FixedUpdatable;
-import logic.update.updatable.GenericUpdatable;
-import logic.update.updatable.UnfixedUpdatable;
-import logic.update.updater.ClockUpdater;
+import logic.update.unfixedUpdate.Updatable;
+import logic.update.fixedUpdate.FixedUpdatable;
+import logic.update.fixedUpdate.FixedUpdater;
+import logic.update.unfixedUpdate.Updater;
 
 import java.util.ArrayList;
 
-public class GameClock implements Runnable, ClockUpdater {
+public class GameClock implements Runnable, FixedUpdater, Updater {
 
     private final int DEFAULT_RENDERPROCESSES_PER_SECOND = 60;
     private final int NANO_SECONDS_IN_SECOND = 1000000000;
@@ -17,9 +17,9 @@ public class GameClock implements Runnable, ClockUpdater {
     private int renderProcessRateInNanoSeconds;
 
     private long totalElapsedTime = 0;
-    private long lastRenderProcessTime = 0;
+    private long lastFixedUpdateTime = 0;
 
-    private final ArrayList<UnfixedUpdatable> unfixedUpdatables = new ArrayList<>();
+    private final ArrayList<Updatable> unfixedUpdatables = new ArrayList<>();
     private final ArrayList<FixedUpdatable> fixedUpdatables = new ArrayList<>();
 
     // Debug
@@ -53,22 +53,22 @@ public class GameClock implements Runnable, ClockUpdater {
 
             if (elapsedTime > MIN_CLOCK_LENGTH_IN_NANO_SECOND) {
 //                System.out.println("ClockCycle after " + elapsedTime / 1000 + "ms");
-                lastRenderProcessTime += elapsedTime;
+                lastFixedUpdateTime += elapsedTime;
                 this.totalElapsedTime += elapsedTime;
 
                 unfixedUpdatables.forEach(
-                        GenericUpdatable::update
+                        updatable -> updatable.update(elapsedTime)
                 );
 
                 this.handleUpdateCountMeasurement(elapsedTime);
 
-                if (lastRenderProcessTime > this.renderProcessRateInNanoSeconds) {
-                    lastRenderProcessTime = 0;
+                if (lastFixedUpdateTime > this.renderProcessRateInNanoSeconds) {
+                    lastFixedUpdateTime = 0;
                     fixedUpdatables.forEach(
                             FixedUpdatable::update
                     );
 
-                    this.handleFrameCountMeasurement(lastRenderProcessTime);
+                    this.handleFrameCountMeasurement(lastFixedUpdateTime);
                 }
             }
         }
@@ -100,11 +100,13 @@ public class GameClock implements Runnable, ClockUpdater {
 
     }
 
+    @Override
     public void register(FixedUpdatable updatable) {
         this.fixedUpdatables.add(updatable);
     }
 
-    public void register(UnfixedUpdatable updatable) {
+    @Override
+    public void register(Updatable updatable) {
         this.unfixedUpdatables.add(updatable);
     }
 
@@ -112,7 +114,7 @@ public class GameClock implements Runnable, ClockUpdater {
         this.fixedUpdatables.remove(updatable);
     }
 
-    public void unregisterUpdateable(UnfixedUpdatable updatable) {
+    public void unregisterUpdateable(Updatable updatable) {
         this.unfixedUpdatables.remove(updatable);
     }
 }
