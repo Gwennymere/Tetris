@@ -1,7 +1,7 @@
 package logic.state;
 
 import logic.clocking.GameClock;
-import logic.clocking.updatables.UnfixedUpdatable;
+import logic.update.updatable.UnfixedUpdatable;
 
 public class GameState implements UnfixedUpdatable {
     private double charAX = 0;

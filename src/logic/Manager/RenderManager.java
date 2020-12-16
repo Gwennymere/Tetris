@@ -1,7 +1,7 @@
 package logic.Manager;
 
 import logic.clocking.GameClock;
-import logic.clocking.updatables.FixedUpdatable;
+import logic.update.updatable.FixedUpdatable;
 import rendering.Renderer;
 
 public class RenderManager implements Runnable, FixedUpdatable {
@@ -15,15 +15,15 @@ public class RenderManager implements Runnable, FixedUpdatable {
         this.renderer.setBufferStrat(BUFFER_SIZE);
     }
 
-    @Override
-    public void update(long timeElapsed) {
-        update();
-    }
-
-    @Override
-    public void registerWithClock(GameClock clock) {
-        clock.registerUpdatable(this);
-    }
+//    @Override
+//    public void update(long timeElapsed) {
+//        update();
+//    }
+//
+//    @Override
+//    public void registerWithClock(GameClock clock) {
+//        clock.registerUpdatable(this);
+//    }
 
     @Override
     public void run() {
@@ -37,6 +37,11 @@ public class RenderManager implements Runnable, FixedUpdatable {
                 }
             }
         }
+    }
+
+    @Override
+    public void update(Long data) {
+
     }
 
     @Override

@@ -1,12 +1,14 @@
 package logic.clocking;
 
 import javafx.beans.property.SimpleIntegerProperty;
-import logic.clocking.updatables.FixedUpdatable;
-import logic.clocking.updatables.UnfixedUpdatable;
+import logic.update.updatable.FixedUpdatable;
+import logic.update.updatable.GenericUpdatable;
+import logic.update.updatable.UnfixedUpdatable;
+import logic.update.updater.ClockUpdater;
 
 import java.util.ArrayList;
 
-public class GameClock implements Runnable {
+public class GameClock implements Runnable, ClockUpdater {
 
     private final int DEFAULT_RENDERPROCESSES_PER_SECOND = 60;
     private final int NANO_SECONDS_IN_SECOND = 1000000000;
@@ -55,7 +57,7 @@ public class GameClock implements Runnable {
                 this.totalElapsedTime += elapsedTime;
 
                 unfixedUpdatables.forEach(
-                        (updatable) -> updatable.update(elapsedTime)
+                        GenericUpdatable::update
                 );
 
                 this.handleUpdateCountMeasurement(elapsedTime);
@@ -98,11 +100,11 @@ public class GameClock implements Runnable {
 
     }
 
-    public void registerUpdatable(FixedUpdatable updatable) {
+    public void register(FixedUpdatable updatable) {
         this.fixedUpdatables.add(updatable);
     }
 
-    public void registerUpdatable(UnfixedUpdatable updatable) {
+    public void register(UnfixedUpdatable updatable) {
         this.unfixedUpdatables.add(updatable);
     }
 
