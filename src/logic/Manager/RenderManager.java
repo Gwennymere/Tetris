@@ -1,6 +1,7 @@
 package logic.Manager;
 
 import logic.clocking.GameClock;
+import logic.state.EngineState;
 import logic.update.fixedUpdate.FixedUpdatable;
 import rendering.Renderer;
 
@@ -9,9 +10,9 @@ public class RenderManager implements Runnable, FixedUpdatable {
     private final Renderer renderer;
     private final int BUFFER_SIZE = 2;
 
-    public RenderManager(GameClock clock) {
+    public RenderManager(GameClock clock, EngineState eState) {
         this.registerWithClock(clock);
-        this.renderer = new Renderer();
+        this.renderer = new Renderer(eState);
         this.renderer.setBufferStrat(BUFFER_SIZE);
     }
 

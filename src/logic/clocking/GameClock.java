@@ -1,5 +1,6 @@
 package logic.clocking;
 
+import logic.Main;
 import logic.update.fixedUpdate.FixedUpdatable;
 import logic.update.fixedUpdate.FixedUpdater;
 import logic.update.unfixedUpdate.Updatable;
@@ -9,14 +10,13 @@ import java.util.ArrayList;
 
 public class GameClock implements Runnable, FixedUpdater, Updater {
 
-    private final int DEFAULT_RENDERPROCESSES_PER_SECOND = 60;
-    private final int NANO_SECONDS_IN_SECOND = 1000000000;
-    private final int MIN_CLOCK_LENGTH_IN_NANO_SECOND = 100000;
-    private int renderProcessesPerSecond;
-    private int renderProcessRateInNanoSeconds;
+    public static final int MIN_CLOCK_LENGTH_IN_NANO_SECOND = 100000;
+    private static final int DEFAULT_RENDERPROCESSES_PER_SECOND = 60;
+    private int fixedUpdatesPerSecond;
+    private int fixedUpdateRateInNanoSeconds;
 
-    private double totalElapsedTime = 0;
-    private double lastFixedUpdateTime = 0;
+    private long totalElapsedTime = 0;
+    private long lastFixedUpdateTime = 0;
 
     private final ArrayList<Updatable> unfixedUpdatables = new ArrayList<>();
     private final ArrayList<FixedUpdatable> fixedUpdatables = new ArrayList<>();
@@ -25,19 +25,20 @@ public class GameClock implements Runnable, FixedUpdater, Updater {
         this.setupClock(this.DEFAULT_RENDERPROCESSES_PER_SECOND);
     }
 
-    public GameClock(int renderProcessesPerSecond) {
-        this.setupClock(renderProcessesPerSecond);
+    public GameClock(int fixedUpdatesPerSecond) {
+        this.setupClock(fixedUpdatesPerSecond);
     }
 
-    private void setupClock(int renderProcessesPerSecond) {
-        this.renderProcessesPerSecond = renderProcessesPerSecond;
-        this.renderProcessRateInNanoSeconds = NANO_SECONDS_IN_SECOND / this.renderProcessesPerSecond;
+    private void setupClock(int fixedUpdatesPerSecond) {
+        this.fixedUpdatesPerSecond = fixedUpdatesPerSecond;
+        this.fixedUpdateRateInNanoSeconds = Main.NANO_SECONDS_IN_SECOND / this.fixedUpdatesPerSecond;
     }
 
     @Override
     public void run() {
+        this.totalElapsedTime = System.nanoTime();
         while (true) {
-            double elapsedTime = System.nanoTime() - this.totalElapsedTime;
+            long elapsedTime = System.nanoTime() - this.totalElapsedTime;
 
             if (elapsedTime > MIN_CLOCK_LENGTH_IN_NANO_SECOND) {
                 this.lastFixedUpdateTime += elapsedTime;
@@ -47,7 +48,7 @@ public class GameClock implements Runnable, FixedUpdater, Updater {
                         updatable -> updatable.update(elapsedTime)
                 );
 
-                if (lastFixedUpdateTime > this.renderProcessRateInNanoSeconds) {
+                if (lastFixedUpdateTime > this.fixedUpdateRateInNanoSeconds) {
                     fixedUpdatables.forEach(
                             FixedUpdatable::update
                     );

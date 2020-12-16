@@ -1,12 +1,13 @@
 package logic.state;
 
+import logic.Main;
 import logic.clocking.GameClock;
-import logic.update.unfixedUpdate.unfixedUpdatables.DoubleUpdatable;
+import logic.update.unfixedUpdate.unfixedUpdatables.LongUpdatable;
 
-public class EngineState implements DoubleUpdatable {
-    private double fpsTimer = 0;
-    private double fpsCounter = 0;
-    private double currentFps = 0;
+public class EngineState implements LongUpdatable {
+    private long fpsResetTimer = 0;
+    private int fpsCounter = 0;
+    private int currentFps = 0;
 
     public EngineState(GameClock clock) {
         clock.register(this);
@@ -17,12 +18,14 @@ public class EngineState implements DoubleUpdatable {
     }
 
     @Override
-    public void update(Double updateInfo) {
+    public void update(Long timeSinceLastUpdate) {
         fpsCounter++;
-        if (fpsTimer > 1) {
+        fpsResetTimer += timeSinceLastUpdate;
+        System.out.println(timeSinceLastUpdate + " || " + fpsResetTimer);
+        if (fpsResetTimer > Main.NANO_SECONDS_IN_SECOND) {
             currentFps = fpsCounter;
             fpsCounter = 0;
-            fpsTimer -= 1;
+            fpsResetTimer -= Main.NANO_SECONDS_IN_SECOND;
         }
     }
 }
