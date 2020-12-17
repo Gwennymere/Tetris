@@ -1,7 +1,7 @@
 package logic;
 
 import logic.Manager.RenderManager;
-import logic.clocking.GameClock;
+import logic.clocking.UnfixedClock;
 import logic.state.EngineState;
 
 public class Main {
@@ -9,9 +9,10 @@ public class Main {
 
 
     public static void main(String[] args) {
-        GameClock clock = new GameClock();
+//        FixedClock renderClock = new FixedClock(60);
+        UnfixedClock clock = new UnfixedClock();
         EngineState eState = new EngineState(clock);
-        RenderManager renderManager = new RenderManager(clock, eState);
+        RenderManager renderManager = new RenderManager(eState);
 
         Thread renderThread = new Thread(renderManager);
         renderThread.start();

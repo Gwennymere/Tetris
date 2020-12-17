@@ -1,38 +1,11 @@
 package logic.clocking;
 
-import logic.Main;
-import logic.update.fixedUpdate.FixedUpdatable;
-import logic.update.fixedUpdate.FixedUpdater;
-import logic.update.unfixedUpdate.Updatable;
-import logic.update.unfixedUpdate.Updater;
+public abstract class GameClock implements Runnable {
 
-import java.util.ArrayList;
-
-public class GameClock implements Runnable, FixedUpdater, Updater {
-
-    public static final int MIN_CLOCK_LENGTH_IN_NANO_SECOND = 100000;
-    private static final int DEFAULT_RENDERPROCESSES_PER_SECOND = 60;
-    private int fixedUpdatesPerSecond;
-    private int fixedUpdateRateInNanoSeconds;
+    private static final int MIN_CLOCK_LENGTH_IN_NANO_SECOND = 100000;
 
     private long totalElapsedTime = 0;
-    private long lastFixedUpdateTime = 0;
-
-    private final ArrayList<Updatable> unfixedUpdatables = new ArrayList<>();
-    private final ArrayList<FixedUpdatable> fixedUpdatables = new ArrayList<>();
-
-    public GameClock() {
-        this.setupClock(this.DEFAULT_RENDERPROCESSES_PER_SECOND);
-    }
-
-    public GameClock(int fixedUpdatesPerSecond) {
-        this.setupClock(fixedUpdatesPerSecond);
-    }
-
-    private void setupClock(int fixedUpdatesPerSecond) {
-        this.fixedUpdatesPerSecond = fixedUpdatesPerSecond;
-        this.fixedUpdateRateInNanoSeconds = Main.NANO_SECONDS_IN_SECOND / this.fixedUpdatesPerSecond;
-    }
+    private long lastUpdateTime = 0;
 
     @Override
     public void run() {
@@ -41,37 +14,21 @@ public class GameClock implements Runnable, FixedUpdater, Updater {
             long elapsedTime = System.nanoTime() - this.totalElapsedTime;
 
             if (elapsedTime > MIN_CLOCK_LENGTH_IN_NANO_SECOND) {
-                this.lastFixedUpdateTime += elapsedTime;
-                this.totalElapsedTime += elapsedTime;
-
-                unfixedUpdatables.forEach(
-                        updatable -> updatable.update(elapsedTime)
-                );
-
-                if (lastFixedUpdateTime > this.fixedUpdateRateInNanoSeconds) {
-                    fixedUpdatables.forEach(
-                            FixedUpdatable::update
-                    );
+                if (this.update(elapsedTime)) {
+                    this.lastUpdateTime += elapsedTime;
+                    this.totalElapsedTime += elapsedTime;
                 }
             }
         }
     }
 
-    @Override
-    public void register(FixedUpdatable updatable) {
-        this.fixedUpdatables.add(updatable);
-    }
+    protected abstract boolean update(long lastUpdateTime);
 
-    @Override
-    public void register(Updatable updatable) {
-        this.unfixedUpdatables.add(updatable);
-    }
-
-    public void unregisterUpdateable(FixedUpdatable updatable) {
-        this.fixedUpdatables.remove(updatable);
-    }
-
-    public void unregisterUpdateable(Updatable updatable) {
-        this.unfixedUpdatables.remove(updatable);
-    }
+//    public void unregisterUpdateable(FixedUpdatable updatable) {
+//        this.fixedUpdatables.remove(updatable);
+//    }
+//
+//    public void unregisterUpdateable(Updatable updatable) {
+//        this.unfixedUpdatables.remove(updatable);
+//    }
 }
