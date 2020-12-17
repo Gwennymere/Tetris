@@ -40,7 +40,7 @@ public class RenderManager extends GameClock {
     }
 
 //    @Override
-//    public void update() {
+//    public void updateNow() {
 //        synchronized (this) {
 //            notify();
 //        }
