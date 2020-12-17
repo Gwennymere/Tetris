@@ -21,7 +21,6 @@ public class RenderState implements LongUpdatable {
     public void update(Long timeSinceLastUpdate) {
         fpsCounter++;
         fpsResetTimer += timeSinceLastUpdate;
-        System.out.println(timeSinceLastUpdate + " || " + fpsResetTimer);
         if (fpsResetTimer > Main.NANO_SECONDS_IN_SECOND) {
             currentFps = fpsCounter;
             System.out.println(currentFps);
