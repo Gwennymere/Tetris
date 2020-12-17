@@ -1,16 +1,16 @@
 package logic.state;
 
 import logic.Main;
-import logic.clocking.GameClock;
 import logic.update.unfixedUpdate.unfixedUpdatables.LongUpdatable;
 
-public class EngineState implements LongUpdatable {
+public class RenderState implements LongUpdatable {
     private long fpsResetTimer = 0;
     private int fpsCounter = 0;
     private int currentFps = 0;
 
-    public EngineState(GameClock clock) {
-        clock.register(this);
+//    public RenderState(Updater clock) {
+    public RenderState() {
+//        clock.register(this);
     }
 
     public double getFps() {

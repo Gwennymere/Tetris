@@ -6,6 +6,15 @@ public abstract class GameClock implements Runnable {
 
     private long totalElapsedTime = 0;
     private long lastUpdateTime = 0;
+    private long tickCap;
+
+    public GameClock(long tickCap) {
+        this.tickCap = tickCap;
+    }
+
+    public GameClock() {
+        this(GameClock.MIN_CLOCK_LENGTH_IN_NANO_SECOND);
+    }
 
     @Override
     public void run() {
@@ -13,8 +22,8 @@ public abstract class GameClock implements Runnable {
         while (true) {
             long elapsedTime = System.nanoTime() - this.totalElapsedTime;
 
-            if (elapsedTime > MIN_CLOCK_LENGTH_IN_NANO_SECOND) {
-                if (this.update(elapsedTime)) {
+            if (elapsedTime > tickCap) {
+                if (this.clockTick(elapsedTime)) {
                     this.lastUpdateTime += elapsedTime;
                     this.totalElapsedTime += elapsedTime;
                 }
@@ -22,7 +31,7 @@ public abstract class GameClock implements Runnable {
         }
     }
 
-    protected abstract boolean update(long lastUpdateTime);
+    protected abstract boolean clockTick(long lastUpdateTime);
 
 //    public void unregisterUpdateable(FixedUpdatable updatable) {
 //        this.fixedUpdatables.remove(updatable);

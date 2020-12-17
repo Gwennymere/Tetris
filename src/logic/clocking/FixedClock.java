@@ -33,7 +33,7 @@ public class FixedClock extends GameClock implements FixedUpdater {
     }
 
     @Override
-    protected boolean update(long lastUpdateTime) {
+    protected boolean clockTick(long lastUpdateTime) {
         if (lastUpdateTime > this.fixedUpdateRateInNanoSeconds) {
             fixedUpdatables.forEach(
                     FixedUpdatable::update

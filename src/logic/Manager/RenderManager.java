@@ -1,42 +1,48 @@
 package logic.Manager;
 
-import logic.state.EngineState;
-import logic.update.fixedUpdate.FixedUpdatable;
+import logic.Main;
+import logic.clocking.GameClock;
+import logic.state.RenderState;
 import rendering.Renderer;
 
-public class RenderManager implements Runnable, FixedUpdatable {
+public class RenderManager extends GameClock {
 
     private final Renderer renderer;
     private final int BUFFER_SIZE = 2;
 
-    public RenderManager(EngineState eState) {
-//        this.registerWithClock(clock);
-        this.renderer = new Renderer(eState);
+    public RenderManager(RenderState renderState, int maxFps) {
+        super(Main.NANO_SECONDS_IN_SECOND / maxFps);
+        this.renderer = new Renderer(renderState);
         this.renderer.setBufferStrat(BUFFER_SIZE);
     }
 
-//    public void registerWithClock(FixedClock clock) {
-//        clock.register(this);
+    public RenderManager(RenderState eState) {
+        this(eState, 60);
+    }
+
+//    @Override
+//    public void run() {
+//        while (true) {
+//            renderer.render();
+//            synchronized (this) {
+//                try {
+//                    wait();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
 //    }
 
     @Override
-    public void run() {
-        while (true) {
-            renderer.render();
-            synchronized (this) {
-                try {
-                    wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+    protected boolean clockTick(long lastUpdateTime) {
+        return false;
     }
 
-    @Override
-    public void update() {
-        synchronized (this) {
-            notify();
-        }
-    }
+//    @Override
+//    public void update() {
+//        synchronized (this) {
+//            notify();
+//        }
+//    }
 }

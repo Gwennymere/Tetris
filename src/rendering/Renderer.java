@@ -1,6 +1,6 @@
 package rendering;
 
-import logic.state.EngineState;
+import logic.state.RenderState;
 
 import javax.swing.*;
 
@@ -9,15 +9,15 @@ public class Renderer {
     private static final int DEFAULT_DIMENSION_Y = 800;
     private final JFrame frame;
     private GameCanvas canvas;
-    private final EngineState engineState;
+    private final RenderState renderState;
 
-    public Renderer(EngineState eState) {
+    public Renderer(RenderState eState) {
         this(DEFAULT_DIMENSION_X, DEFAULT_DIMENSION_Y, eState);
     }
 
-    public Renderer(int width, int height, EngineState engineState) {
+    public Renderer(int width, int height, RenderState renderState) {
         this.frame = this.setupNewJFrame(width, height);
-        this.engineState = engineState;
+        this.renderState = renderState;
     }
 
     private JFrame setupNewJFrame(int width, int height) {
@@ -39,6 +39,6 @@ public class Renderer {
     }
 
     public void render() {
-        System.out.println(this.engineState.getFps());
+        System.out.println(this.renderState.getFps());
     }
 }

@@ -9,7 +9,7 @@ public class UnfixedClock extends GameClock implements Updater {
     private final ArrayList<Updatable> unfixedUpdatables = new ArrayList<>();
 
     @Override
-    protected boolean update(long lastUpdateTime) {
+    protected boolean clockTick(long lastUpdateTime) {
         unfixedUpdatables.forEach(
                 updatable -> updatable.update(lastUpdateTime)
         );
