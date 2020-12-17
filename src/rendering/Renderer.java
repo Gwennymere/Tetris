@@ -23,6 +23,7 @@ public class Renderer {
         this.canvas = new GameCanvas(width, height);
         frame.add(this.canvas);
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         return frame;
     }
@@ -35,6 +36,7 @@ public class Renderer {
     }
 
     public void render() {
-//        System.out.println(this.renderState.getFps());
+        canvas.alterColor();
+        canvas.repaint();
     }
 }

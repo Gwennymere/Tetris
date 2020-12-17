@@ -22,31 +22,10 @@ public class RenderManager extends GameClock {
         this(eState, 60);
     }
 
-//    @Override
-//    public void run() {
-//        while (true) {
-//            renderer.render();
-//            synchronized (this) {
-//                try {
-//                    wait();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
-
     @Override
     protected void clockTick(long lastUpdateTime) {
         renderState.update(lastUpdateTime);
         System.out.println("FPS: " + renderState.getFps());
         renderer.render();
     }
-
-//    @Override
-//    public void updateNow() {
-//        synchronized (this) {
-//            notify();
-//        }
-//    }
 }
