@@ -5,13 +5,12 @@ import logic.update.unfixedUpdate.Updater;
 
 import java.util.ArrayList;
 
-public class UnfixedClock<U extends Updatable> extends GameClock implements Updater<U, Long> {
+public class UpdaterClock<U extends Updatable> extends GameClock implements Updater<U, Long> {
     private final ArrayList<U> unfixedUpdatables = new ArrayList<>();
 
     @Override
-    protected boolean clockTick(long lastUpdateTime) {
+    protected void clockTick(long lastUpdateTime) {
         this.updateNow(lastUpdateTime);
-        return true;
     }
 
     @Override

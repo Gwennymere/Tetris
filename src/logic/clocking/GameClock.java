@@ -23,15 +23,14 @@ public abstract class GameClock implements Runnable {
             long elapsedTime = System.nanoTime() - this.totalElapsedTime;
 
             if (elapsedTime > tickCap) {
-                if (this.clockTick(elapsedTime)) {
-                    this.lastUpdateTime += elapsedTime;
-                    this.totalElapsedTime += elapsedTime;
-                }
+                this.clockTick(elapsedTime);
+                this.lastUpdateTime += elapsedTime;
+                this.totalElapsedTime += elapsedTime;
             }
         }
     }
 
-    protected abstract boolean clockTick(long lastUpdateTime);
+    protected abstract void clockTick(long lastUpdateTime);
 
 //    public void unregisterUpdateable(FixedUpdatable updatable) {
 //        this.fixedUpdatables.remove(updatable);

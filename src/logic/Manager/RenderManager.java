@@ -8,7 +8,7 @@ import rendering.Renderer;
 public class RenderManager extends GameClock {
 
     private final Renderer renderer;
-    private final int BUFFER_SIZE = 2;
+    private static final int BUFFER_SIZE = 2;
 
     public RenderManager(RenderState renderState, int maxFps) {
         super(Main.NANO_SECONDS_IN_SECOND / maxFps);
@@ -35,8 +35,8 @@ public class RenderManager extends GameClock {
 //    }
 
     @Override
-    protected boolean clockTick(long lastUpdateTime) {
-        return false;
+    protected void clockTick(long lastUpdateTime) {
+
     }
 
 //    @Override

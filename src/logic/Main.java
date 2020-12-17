@@ -1,7 +1,7 @@
 package logic;
 
 import logic.Manager.RenderManager;
-import logic.clocking.UnfixedClock;
+import logic.clocking.UpdaterClock;
 import logic.state.RenderState;
 
 public class Main {
@@ -10,8 +10,7 @@ public class Main {
 
 
     public static void main(String[] args) {
-//        FixedClock renderClock = new FixedClock(60);
-        UnfixedClock clock = new UnfixedClock();
+        UpdaterClock clock = new UpdaterClock();
         RenderState eState = new RenderState();
         RenderManager renderManager = new RenderManager(eState, MAX_FPS);
 
