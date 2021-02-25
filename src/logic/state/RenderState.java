@@ -1,7 +1,7 @@
 package logic.state;
 
 import logic.App;
-import logic.update.unfixedUpdate.unfixedUpdatables.LongUpdatable;
+import logic.update.updatables.LongUpdatable;
 
 public class RenderState implements LongUpdatable {
     private long fpsResetTimer = 0;

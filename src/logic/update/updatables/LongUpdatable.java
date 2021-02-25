@@ -1,6 +1,4 @@
-package logic.update.unfixedUpdate.unfixedUpdatables;
-
-import logic.update.unfixedUpdate.Updatable;
+package logic.update.updatables;
 
 public interface LongUpdatable extends Updatable<Long> {
     @Override

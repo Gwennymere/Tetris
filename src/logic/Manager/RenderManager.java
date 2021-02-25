@@ -1,13 +1,13 @@
 package logic.Manager;
 
 import logic.App;
-import logic.clocking.GameClock;
+import logic.clocking.Clock;
 import logic.state.RenderState;
 import rendering.Renderer;
 
 import javax.swing.*;
 
-public class RenderManager extends GameClock {
+public class RenderManager extends Clock {
 
     private final Renderer renderer;
     private static final int BUFFER_SIZE = 2;

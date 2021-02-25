@@ -1,4 +1,4 @@
-package logic.update;
+package logic.update.updater;
 
 import exceptions.runtime.BadUpdateException;
 

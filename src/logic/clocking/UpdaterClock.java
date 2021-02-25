@@ -1,11 +1,11 @@
 package logic.clocking;
 
-import logic.update.unfixedUpdate.Updatable;
-import logic.update.unfixedUpdate.Updater;
+import logic.update.updatables.Updatable;
+import logic.update.updater.Updater;
 
 import java.util.ArrayList;
 
-public class UpdaterClock<U extends Updatable> extends GameClock implements Updater<U, Long> {
+public class UpdaterClock<U extends Updatable> extends Clock implements Updater<U, Long> {
     private final ArrayList<U> unfixedUpdatables = new ArrayList<>();
 
     @Override

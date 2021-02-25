@@ -1,6 +1,6 @@
 package logic.clocking;
 
-public abstract class GameClock implements Runnable {
+public abstract class Clock implements Runnable {
 
     private static final int MIN_CLOCK_LENGTH_IN_NANO_SECOND = 100000;
 
@@ -8,12 +8,12 @@ public abstract class GameClock implements Runnable {
     private long lastUpdateTime = 0;
     private long tickCap;
 
-    public GameClock(long tickCap) {
+    public Clock(long tickCap) {
         this.tickCap = tickCap;
     }
 
-    public GameClock() {
-        this(GameClock.MIN_CLOCK_LENGTH_IN_NANO_SECOND);
+    public Clock() {
+        this(Clock.MIN_CLOCK_LENGTH_IN_NANO_SECOND);
     }
 
     @Override
