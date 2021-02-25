@@ -1,4 +1,4 @@
-package logic.Manager;
+package logic.manager;
 
 public class GuiManager {
 /*

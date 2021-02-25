@@ -3,8 +3,7 @@ package logic;
 import communication.ButtonCommunicator;
 import communication.CommunicatorManager;
 import game.GameManager;
-import logic.Manager.RenderManager;
-import logic.clocking.UpdaterClock;
+import logic.manager.RenderManager;
 import logic.state.RenderState;
 import ui.ButtonType;
 import ui.UiCreator;
@@ -18,9 +17,6 @@ public class App {
     private static CommunicatorManager communicatorManager;
     private static GameManager gameManager;
 
-    // Clocks
-    private static UpdaterClock gameClock;
-
     // Threads
     private static Thread renderThread;
     private static Thread clockThread;
@@ -29,13 +25,10 @@ public class App {
         communicatorManager = new CommunicatorManager();
         ButtonCommunicator buttonCommunicator = communicatorManager.getButtonCommunicator();
 
-        gameClock = new UpdaterClock(NANO_SECONDS_IN_SECOND);
         renderManager = new RenderManager(new RenderState(), MAX_FPS);
 
         renderThread = new Thread(renderManager);
         renderThread.start();
-        clockThread = new Thread(gameClock);
-        clockThread.start();
 
         renderManager.switchScene(UiCreator.createMainMenu(buttonCommunicator));
 
@@ -50,6 +43,8 @@ public class App {
     private static void startGame() {
         ButtonCommunicator buttonCommunicator = communicatorManager.getButtonCommunicator();
         renderManager.switchScene(UiCreator.createIngameView(buttonCommunicator));
-        gameManager = new GameManager(gameClock, buttonCommunicator);
+        gameManager = new GameManager(buttonCommunicator, NANO_SECONDS_IN_SECOND);
+        clockThread = new Thread(gameManager);
+        clockThread.start();
     }
 }

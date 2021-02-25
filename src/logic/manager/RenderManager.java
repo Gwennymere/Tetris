@@ -1,4 +1,4 @@
-package logic.Manager;
+package logic.manager;
 
 import logic.App;
 import logic.clocking.Clock;
@@ -31,7 +31,7 @@ public class RenderManager extends Clock {
     @Override
     protected void clockTick(long lastUpdateTime) {
         renderState.update(lastUpdateTime);
-        System.out.println("FPS: " + renderState.getFps());
+//        System.out.println("FPS: " + renderState.getFps());
         renderer.render();
     }
 }
