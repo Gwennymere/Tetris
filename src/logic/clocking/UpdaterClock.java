@@ -6,7 +6,15 @@ import logic.update.updater.Updater;
 import java.util.ArrayList;
 
 public class UpdaterClock<U extends Updatable> extends Clock implements Updater<U, Long> {
-    private final ArrayList<U> unfixedUpdatables = new ArrayList<>();
+    private final ArrayList<U> updatables = new ArrayList<>();
+
+    public UpdaterClock() {
+        super();
+    };
+
+    public UpdaterClock(int clockCycleLength) {
+        super(clockCycleLength);
+    };
 
     @Override
     protected void clockTick(final long lastUpdateTime) {
@@ -15,17 +23,17 @@ public class UpdaterClock<U extends Updatable> extends Clock implements Updater<
 
     @Override
     public void register(final U updatable) {
-        this.unfixedUpdatables.add(updatable);
+        this.updatables.add(updatable);
     }
 
     @Override
     public void deregister(final U updatable) {
-        this.unfixedUpdatables.remove(updatable);
+        this.updatables.remove(updatable);
     }
 
     @Override
     public void updateNow(final Long lastUpdateTime) {
-        unfixedUpdatables.forEach(
+        updatables.forEach(
                 updatable -> updatable.update(lastUpdateTime)
         );
     }
