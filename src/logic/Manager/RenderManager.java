@@ -1,6 +1,6 @@
 package logic.Manager;
 
-import logic.Main;
+import logic.App;
 import logic.clocking.GameClock;
 import logic.state.RenderState;
 import rendering.Renderer;
@@ -12,7 +12,7 @@ public class RenderManager extends GameClock {
     private final RenderState renderState;
 
     public RenderManager(RenderState renderState, int maxFps) {
-        super(Main.NANO_SECONDS_IN_SECOND / maxFps);
+        super(App.NANO_SECONDS_IN_SECOND / maxFps);
         this.renderState = renderState;
         this.renderer = new Renderer();
         this.renderer.setBufferStrat(BUFFER_SIZE);

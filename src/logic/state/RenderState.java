@@ -1,6 +1,6 @@
 package logic.state;
 
-import logic.Main;
+import logic.App;
 import logic.update.unfixedUpdate.unfixedUpdatables.LongUpdatable;
 
 public class RenderState implements LongUpdatable {
@@ -21,11 +21,11 @@ public class RenderState implements LongUpdatable {
     public void update(Long timeSinceLastUpdate) {
         fpsCounter++;
         fpsResetTimer += timeSinceLastUpdate;
-        if (fpsResetTimer > Main.NANO_SECONDS_IN_SECOND) {
+        if (fpsResetTimer > App.NANO_SECONDS_IN_SECOND) {
             currentFps = fpsCounter;
             System.out.println(currentFps);
             fpsCounter = 0;
-            fpsResetTimer -= Main.NANO_SECONDS_IN_SECOND;
+            fpsResetTimer -= App.NANO_SECONDS_IN_SECOND;
         }
     }
 }

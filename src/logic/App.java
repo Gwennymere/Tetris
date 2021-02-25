@@ -4,7 +4,7 @@ import logic.Manager.RenderManager;
 import logic.clocking.UpdaterClock;
 import logic.state.RenderState;
 
-public class Main {
+public class App {
     public static final int NANO_SECONDS_IN_SECOND = 1000000000;
     public static final int MAX_FPS = 60;
 

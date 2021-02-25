@@ -1,6 +1,6 @@
 package logic.clocking;
 
-import logic.Main;
+import logic.App;
 import logic.update.fixedUpdate.FixedUpdatable;
 import logic.update.fixedUpdate.FixedUpdater;
 
@@ -16,7 +16,7 @@ public class FixedUpdaterClock extends GameClock implements FixedUpdater {
     }
 
     public FixedUpdaterClock(int fixedUpdatesPerSecond) {
-        super(Main.NANO_SECONDS_IN_SECOND / fixedUpdatesPerSecond);
+        super(App.NANO_SECONDS_IN_SECOND / fixedUpdatesPerSecond);
     }
 
     @Override
