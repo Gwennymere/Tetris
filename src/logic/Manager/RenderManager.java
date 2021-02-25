@@ -5,6 +5,8 @@ import logic.clocking.GameClock;
 import logic.state.RenderState;
 import rendering.Renderer;
 
+import javax.swing.*;
+
 public class RenderManager extends GameClock {
 
     private final Renderer renderer;
@@ -20,6 +22,10 @@ public class RenderManager extends GameClock {
 
     public RenderManager(RenderState eState) {
         this(eState, 60);
+    }
+
+    public void switchScene(JPanel scene) {
+        renderer.setupMainMenuScreen(scene);
     }
 
     @Override

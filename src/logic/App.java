@@ -4,6 +4,8 @@ import logic.Manager.RenderManager;
 import logic.clocking.UpdaterClock;
 import logic.state.RenderState;
 
+import javax.swing.*;
+
 public class App {
     public static final int NANO_SECONDS_IN_SECOND = 1000000000;
     public static final int MAX_FPS = 60;
@@ -18,5 +20,9 @@ public class App {
         renderThread.start();
         Thread clockThread = new Thread(clock);
         clockThread.start();
+
+        JPanel test = new JPanel();
+        test.add(new JButton("Start game"));
+        renderManager.switchScene(test);
     }
 }
