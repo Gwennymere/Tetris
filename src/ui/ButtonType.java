@@ -2,5 +2,6 @@ package ui;
 
 public enum ButtonType {
     START,
-    QUIT
+    QUIT,
+    PAUSE
 }

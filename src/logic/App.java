@@ -7,7 +7,7 @@ import logic.Manager.RenderManager;
 import logic.clocking.UpdaterClock;
 import logic.state.RenderState;
 import ui.ButtonType;
-import ui.UiManager;
+import ui.UiCreator;
 
 public class App {
     public static final int NANO_SECONDS_IN_SECOND = 1000000000;
@@ -16,6 +16,7 @@ public class App {
     // Manager
     private static RenderManager renderManager;
     private static CommunicatorManager communicatorManager;
+    private static GameManager gameManager;
 
     // Clocks
     private static UpdaterClock gameClock;
@@ -36,7 +37,7 @@ public class App {
         clockThread = new Thread(gameClock);
         clockThread.start();
 
-        renderManager.switchScene(UiManager.createMainMenu(buttonCommunicator));
+        renderManager.switchScene(UiCreator.createMainMenu(buttonCommunicator));
 
         buttonCommunicator.getEntry(ButtonType.START).addActionListener(e -> {
             startGame();
@@ -44,11 +45,11 @@ public class App {
         buttonCommunicator.getEntry(ButtonType.QUIT).addActionListener(e -> {
             System.exit(0);
         });
-
-//        GameManager gameManager = new GameManager(gameClock);
     }
 
     private static void startGame() {
-        GameManager gameManager = new GameManager(gameClock, communicatorManager.getButtonCommunicator());
+        ButtonCommunicator buttonCommunicator = communicatorManager.getButtonCommunicator();
+        renderManager.switchScene(UiCreator.createIngameView(buttonCommunicator));
+        gameManager = new GameManager(gameClock, buttonCommunicator);
     }
 }
