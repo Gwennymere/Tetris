@@ -1,5 +1,6 @@
 package game;
 
+import communication.ButtonCommunicator;
 import game.pieces.PieceInfo;
 import logic.update.updatables.Updatable;
 import logic.update.updater.Updater;
@@ -10,7 +11,7 @@ public class GameManager implements Updatable<Long> {
 
     private PieceInfo[][] grid = new PieceInfo[BOARD_WIDTH][BOARD_HEIGHT];
 
-    public GameManager(Updater updater) {
+    public GameManager(Updater updater, ButtonCommunicator buttonCommunicator) {
         updater.register(this);
     }
 
@@ -22,5 +23,4 @@ public class GameManager implements Updatable<Long> {
     private void movePiece() {
         System.out.println("movemove");
     }
-//    GameClock clock
 }
