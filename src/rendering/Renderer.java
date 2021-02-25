@@ -6,7 +6,7 @@ public class Renderer {
     private static final int DEFAULT_DIMENSION_X = 1240;
     private static final int DEFAULT_DIMENSION_Y = 800;
     private final JFrame frame;
-    private GameCanvas canvas;
+    private GamePanel canvas;
 
     public Renderer() {
         this(DEFAULT_DIMENSION_X, DEFAULT_DIMENSION_Y);
@@ -20,7 +20,7 @@ public class Renderer {
         JFrame frame = new JFrame("Swing Paint Demo");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        this.canvas = new GameCanvas(width, height);
+        this.canvas = new GamePanel(width, height);
         frame.add(this.canvas);
         frame.pack();
         frame.setLocationRelativeTo(null);

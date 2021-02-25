@@ -9,22 +9,22 @@ public class UpdaterClock<U extends Updatable> extends GameClock implements Upda
     private final ArrayList<U> unfixedUpdatables = new ArrayList<>();
 
     @Override
-    protected void clockTick(long lastUpdateTime) {
+    protected void clockTick(final long lastUpdateTime) {
         this.updateNow(lastUpdateTime);
     }
 
     @Override
-    public void register(U updatable) {
+    public void register(final U updatable) {
         this.unfixedUpdatables.add(updatable);
     }
 
     @Override
-    public void deregister(U updatable) {
+    public void deregister(final U updatable) {
         this.unfixedUpdatables.remove(updatable);
     }
 
     @Override
-    public void updateNow(Long lastUpdateTime) {
+    public void updateNow(final Long lastUpdateTime) {
         unfixedUpdatables.forEach(
                 updatable -> updatable.update(lastUpdateTime)
         );
