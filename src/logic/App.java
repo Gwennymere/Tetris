@@ -9,30 +9,37 @@ import logic.state.RenderState;
 import ui.ButtonType;
 import ui.UiManager;
 
-import javax.swing.*;
-
 public class App {
     public static final int NANO_SECONDS_IN_SECOND = 1000000000;
     public static final int MAX_FPS = 60;
 
+    // Manager
+    private static RenderManager renderManager;
+    private static CommunicatorManager communicatorManager;
+
+    // Clocks
+    private static UpdaterClock gameClock;
+
+    // Threads
+    private static Thread renderThread;
+    private static Thread clockThread;
 
     public static void main(String[] args) {
-        CommunicatorManager communicatorManager = new CommunicatorManager();
+        communicatorManager = new CommunicatorManager();
         ButtonCommunicator buttonCommunicator = communicatorManager.getButtonCommunicator();
 
-        UpdaterClock gameClock = new UpdaterClock(NANO_SECONDS_IN_SECOND);
-        RenderState eState = new RenderState();
-        RenderManager renderManager = new RenderManager(eState, MAX_FPS);
+        gameClock = new UpdaterClock(NANO_SECONDS_IN_SECOND);
+        renderManager = new RenderManager(new RenderState(), MAX_FPS);
 
-        Thread renderThread = new Thread(renderManager);
+        renderThread = new Thread(renderManager);
         renderThread.start();
-        Thread clockThread = new Thread(gameClock);
+        clockThread = new Thread(gameClock);
         clockThread.start();
 
         renderManager.switchScene(UiManager.createMainMenu(buttonCommunicator));
 
         buttonCommunicator.getEntry(ButtonType.START).addActionListener(e -> {
-            startGame(gameClock, buttonCommunicator);
+            startGame();
         });
         buttonCommunicator.getEntry(ButtonType.QUIT).addActionListener(e -> {
             System.exit(0);
@@ -41,7 +48,7 @@ public class App {
 //        GameManager gameManager = new GameManager(gameClock);
     }
 
-    private static void startGame(UpdaterClock gameClock, ButtonCommunicator buttonCommunicator) {
-        GameManager gameManager = new GameManager(gameClock, buttonCommunicator);
+    private static void startGame() {
+        GameManager gameManager = new GameManager(gameClock, communicatorManager.getButtonCommunicator());
     }
 }
