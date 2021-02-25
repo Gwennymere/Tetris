@@ -7,12 +7,12 @@ import logic.update.fixedUpdate.FixedUpdater;
 import java.util.ArrayList;
 
 public class FixedUpdaterClock extends GameClock implements FixedUpdater {
-    private static final int DEFAULT_RENDERPROCESSES_PER_SECOND = 60;
+    private static final int DEFAULT_UPDATES_PER_SECOND = 60;
 
     private final ArrayList<FixedUpdatable> fixedUpdatables = new ArrayList<>();
 
     public FixedUpdaterClock() {
-        this(FixedUpdaterClock.DEFAULT_RENDERPROCESSES_PER_SECOND);
+        this(FixedUpdaterClock.DEFAULT_UPDATES_PER_SECOND);
     }
 
     public FixedUpdaterClock(int fixedUpdatesPerSecond) {
